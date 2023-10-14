@@ -7,7 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public record UserResquest(
+public record UserRequest(
         @JsonProperty("name")
         @NotBlank
         @Size(min = 1, max = 255)
@@ -20,6 +20,6 @@ public record UserResquest(
 ) {
 
     @Builder(toBuilder = true)
-    public UserResquest {
+    public UserRequest {
     }
 }
