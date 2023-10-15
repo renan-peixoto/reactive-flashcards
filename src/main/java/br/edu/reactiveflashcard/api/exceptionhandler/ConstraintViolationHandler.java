@@ -5,6 +5,7 @@ import br.edu.reactiveflashcard.api.controller.response.ProblemResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.internal.engine.path.PathImpl;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -15,6 +16,7 @@ import static br.edu.reactiveflashcard.domain.exception.BaseErrorMessage.GENERIC
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @Slf4j
+@Component
 public class ConstraintViolationHandler extends AbstractHandleException<ConstraintViolationException> {
     public ConstraintViolationHandler(ObjectMapper objectMapper) {
         super( objectMapper );

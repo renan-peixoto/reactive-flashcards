@@ -3,10 +3,8 @@ package br.edu.reactiveflashcard.api.exceptionhandler;
 import br.edu.reactiveflashcard.domain.exception.NotFoundException;
 import br.edu.reactiveflashcard.domain.exception.ReactiveFlashcardsException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebExchangeBindException;
@@ -24,8 +22,15 @@ import javax.validation.ConstraintViolationException;
 @AllArgsConstructor
 public class ApiExceptionHandler implements WebExceptionHandler {
 
-    private final ObjectMapper mapper;
-    private final MessageSource messageSource;
+
+    private final ConstraintViolationHandler constraintViolationHandler;
+    private final GenericHandler genericHandler;
+    private final JsonProcessingHandler jsonProcessingHandler;
+    private final MethodNotAllowedHandler methodNotAllowedHandler;
+    private final NotFoundHandler notFoundHandler;
+    private final ReactiveFlashcardsHandler reactiveFlashcardsHandler;
+    private final ResponseStatusHandler responseStatusHandler;
+    private final WebExchangeBindHandler webExceptionHandler;
 
     /**
      * Handle the given exception. A completion signal through the return value
@@ -40,21 +45,21 @@ public class ApiExceptionHandler implements WebExceptionHandler {
     public Mono<Void> handle(final ServerWebExchange exchange, final Throwable ex) {
         return Mono.error( ex )
                 .onErrorResume( MethodNotAllowedException.class, e ->
-                        new MethodNotAllowedHandler( mapper ).handlerException( exchange, e ))
+                        methodNotAllowedHandler.handlerException( exchange, e ) )
                 .onErrorResume( NotFoundException.class, e ->
-                        new NotFoundHandler( mapper ).handlerException( exchange, e ))
+                        notFoundHandler.handlerException( exchange, e ) )
                 .onErrorResume( ConstraintViolationException.class, e ->
-                        new ConstraintViolationHandler( mapper ).handlerException( exchange, e ))
+                        constraintViolationHandler.handlerException( exchange, e ) )
                 .onErrorResume( WebExchangeBindException.class, e ->
-                        new WebExchangeBindHandler( mapper, messageSource ).handlerException( exchange, e ))
+                        webExceptionHandler.handlerException( exchange, e ) )
                 .onErrorResume( ResponseStatusException.class, e ->
-                        new ResponseStatusHandler( mapper ).handlerException( exchange, e ))
+                        responseStatusHandler.handlerException( exchange, e ) )
                 .onErrorResume( ReactiveFlashcardsException.class, e ->
-                        new ReactiveFlashcardsHandler( mapper ).handlerException( exchange, e ))
+                        reactiveFlashcardsHandler.handlerException( exchange, e ) )
                 .onErrorResume( Exception.class, e ->
-                        new GenericHandler( mapper ).handlerException( exchange, e ))
+                        genericHandler.handlerException( exchange, e ) )
                 .onErrorResume( JsonProcessingException.class, e ->
-                        new JsonProcessingHandler( mapper ).handlerException( exchange, e ))
+                        jsonProcessingHandler.handlerException( exchange, e ) )
                 .then();
     }
 
