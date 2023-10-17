@@ -6,7 +6,6 @@ import br.edu.reactiveflashcard.api.mapper.UserMapper;
 import br.edu.reactiveflashcard.core.validation.MongoId;
 import br.edu.reactiveflashcard.domain.service.UserService;
 import br.edu.reactiveflashcard.domain.service.query.UserQueryService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -50,7 +49,7 @@ public class UserController {
                                      @Valid @RequestBody final UserRequest request) {
         return userService.update( userMapper.toDocument( request, id ) )
                 .doFirst( () -> log.info( "==== Updating a user with follow info [body: {}, id: {}]", request, id ) )
-                .map( response -> userMapper.toResponse( response ) );
+                .map( userMapper::toResponse );
     }
 
     @DeleteMapping(value = "{id}")
