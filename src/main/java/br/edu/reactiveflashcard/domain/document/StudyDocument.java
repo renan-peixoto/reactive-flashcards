@@ -25,7 +25,7 @@ public record StudyDocument(
         OffsetDateTime updatedAt
 ) {
 
-        @Builder(toBuilder = true)
-        public StudyDocument {
-        }
+    @Builder(toBuilder = true)
+    public StudyDocument {
+    }
 }

@@ -21,6 +21,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class WebExchangeBindHandler extends AbstractHandleException<WebExchangeBindException> {
 
     private final MessageSource messageSource;
+
     public WebExchangeBindHandler(ObjectMapper objectMapper, final MessageSource messageSource) {
         super( objectMapper );
         this.messageSource = messageSource;
@@ -41,9 +42,9 @@ public class WebExchangeBindHandler extends AbstractHandleException<WebExchangeB
     private Mono<ProblemResponse> buildRequestErrorMessage(final ProblemResponse response, final WebExchangeBindException ex) {
         return Flux.fromIterable( ex.getAllErrors() )
                 .map( objectError -> ErrorFieldResponse.builder()
-                        .name( objectError instanceof FieldError fieldError? fieldError.getField() : objectError.getObjectName() )
+                        .name( objectError instanceof FieldError fieldError ? fieldError.getField() : objectError.getObjectName() )
                         .message( messageSource.getMessage( objectError, LocaleContextHolder.getLocale() ) )
-                        .build())
+                        .build() )
                 .collectList()
                 .map( problems -> response.toBuilder().fields( problems ).build() );
     }

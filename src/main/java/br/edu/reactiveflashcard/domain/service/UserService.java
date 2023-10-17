@@ -34,9 +34,8 @@ public class UserService {
     public Mono<Void> delete(final String id) {
         return userQueryService.findById( id )
                 .flatMap( userRepository::delete )
-                .doFirst( () -> log.info("==== Try to update a user with follow id {}", id ));
+                .doFirst( () -> log.info( "==== Try to update a user with follow id {}", id ) );
     }
-
 
 
 }
