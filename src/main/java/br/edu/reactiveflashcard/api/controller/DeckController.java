@@ -2,7 +2,6 @@ package br.edu.reactiveflashcard.api.controller;
 
 import br.edu.reactiveflashcard.api.controller.request.DeckRequest;
 import br.edu.reactiveflashcard.api.controller.request.DeckResponse;
-import br.edu.reactiveflashcard.api.controller.response.UserResponse;
 import br.edu.reactiveflashcard.api.mapper.DeckMapper;
 import br.edu.reactiveflashcard.core.validation.MongoId;
 import br.edu.reactiveflashcard.domain.service.DeckService;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
@@ -41,6 +41,13 @@ public class DeckController {
     public Mono<DeckResponse> findById(@PathVariable @Valid @MongoId(message = "{deckController.id}") final String id) {
         return deckQueryService.findById( id )
                 .doFirst( () -> log.info( "==== finding a deck with follow id {}", id ) )
+                .map( deckMapper::toResponse );
+    }
+
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    public Flux<DeckResponse> findAll() {
+        return deckQueryService.findAll()
+                .doFirst( () -> log.info( "Finding all decks" ) )
                 .map( deckMapper::toResponse );
     }
 }
