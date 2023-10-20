@@ -1,5 +1,6 @@
 package br.edu.reactiveflashcard.api.exceptionhandler;
 
+import br.edu.reactiveflashcard.domain.exception.DeckInStudyException;
 import br.edu.reactiveflashcard.domain.exception.EmailAlreadyUsedException;
 import br.edu.reactiveflashcard.domain.exception.NotFoundException;
 import br.edu.reactiveflashcard.domain.exception.ReactiveFlashcardsException;
@@ -22,7 +23,7 @@ import javax.validation.ConstraintViolationException;
 @Slf4j
 @AllArgsConstructor
 public class ApiExceptionHandler implements WebExceptionHandler {
-
+    private final DeckInStudyHandler deckInStudyHandler;
     private final EmailAlreadyUsedHandler emailAlreadyUsedHandler;
     private final ConstraintViolationHandler constraintViolationHandler;
     private final GenericHandler genericHandler;
@@ -45,6 +46,8 @@ public class ApiExceptionHandler implements WebExceptionHandler {
     @Override
     public Mono<Void> handle(final ServerWebExchange exchange, final Throwable ex) {
         return Mono.error( ex )
+                .onErrorResume( DeckInStudyException.class, e ->
+                        deckInStudyHandler.handlerException( exchange, e ) )
                 .onErrorResume( EmailAlreadyUsedException.class, e ->
                         emailAlreadyUsedHandler.handlerException( exchange, e ) )
                 .onErrorResume( MethodNotAllowedException.class, e ->

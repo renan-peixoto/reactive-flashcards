@@ -2,11 +2,13 @@ package br.edu.reactiveflashcard.domain.document;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public record StudyDeck(
+        @Field("deck_id")
         String deckId,
         Set<StudyCard> cards
 ) {
