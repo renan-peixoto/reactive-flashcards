@@ -22,13 +22,13 @@ public class DeckQueryService {
 
     public Mono<DeckDocument> findById(final String id) {
         return deckRepository.findById( id )
-                .doFirst( () -> log.info("==== try to find deck with id {}", id ))
+                .doFirst( () -> log.info( "==== try to find deck with id {}", id ) )
                 .filter( Objects::nonNull )
-                .switchIfEmpty( Mono.defer(() -> Mono.error( new NotFoundException( USER_NOT_FOUND.params( id ).getMessage() ) ) ) );
+                .switchIfEmpty( Mono.defer( () -> Mono.error( new NotFoundException( USER_NOT_FOUND.params( id ).getMessage() ) ) ) );
     }
 
     public Flux<DeckDocument> findAll() {
         return deckRepository.findAll()
-                .doFirst( () -> log.info("==== try to get all decks" ) );
+                .doFirst( () -> log.info( "==== try to get all decks" ) );
     }
 }

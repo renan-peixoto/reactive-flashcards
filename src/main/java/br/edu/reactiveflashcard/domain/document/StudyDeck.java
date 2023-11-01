@@ -18,10 +18,8 @@ public record StudyDeck(
     }
 
     public StudyDeckBuilder toBuilder() {
-        return new StudyDeckBuilder(deckId, cards);
+        return new StudyDeckBuilder( deckId, cards );
     }
-
-
 
 
     @AllArgsConstructor

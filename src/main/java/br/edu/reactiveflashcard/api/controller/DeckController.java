@@ -34,7 +34,7 @@ public class DeckController {
     public Mono<DeckResponse> save(@Valid @RequestBody final DeckRequest request) {
         return deckService.save( deckMapper.toDocument( request ) )
                 .doFirst( () -> log.info( "==== saving deck with follow data {}", request ) )
-                .map(deckMapper::toResponse);
+                .map( deckMapper::toResponse );
     }
 
     @GetMapping(produces = APPLICATION_JSON_VALUE, value = "{id}")

@@ -11,8 +11,9 @@ public record StudyCard(
     public StudyCardBuilder builder() {
         return new StudyCardBuilder();
     }
+
     public StudyCardBuilder toBuilder() {
-        return new StudyCardBuilder(front, back);
+        return new StudyCardBuilder( front, back );
     }
 
 

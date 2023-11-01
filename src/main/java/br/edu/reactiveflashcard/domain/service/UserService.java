@@ -47,11 +47,11 @@ public class UserService {
 
         return verifyEmail( document )
                 .then( userQueryService.findById( document.id() )
-                .map( user -> document.toBuilder()
-                        .createdAt( user.createdAt() )
-                        .updatedAt( user.updatedAt() )
-                        .build() )
-                .flatMap( userRepository::save )
+                        .map( user -> document.toBuilder()
+                                .createdAt( user.createdAt() )
+                                .updatedAt( user.updatedAt() )
+                                .build() )
+                        .flatMap( userRepository::save )
                         .doFirst( () -> log.info( "==== Try to update a user with follow info {}", document ) ) );
 
     }

@@ -58,12 +58,12 @@ public record StudyDocument(
         private OffsetDateTime updatedAt;
 
 
-        public StudyDocumentBuilder id(final String id){
+        public StudyDocumentBuilder id(final String id) {
             this.id = id;
             return this;
         }
 
-        public StudyDocumentBuilder userId(final String userId){
+        public StudyDocumentBuilder userId(final String userId) {
             this.userId = userId;
             return this;
         }
@@ -74,27 +74,27 @@ public record StudyDocument(
         }
 
 
-        public StudyDocumentBuilder studyDeck(final StudyDeck studyDeck){
+        public StudyDocumentBuilder studyDeck(final StudyDeck studyDeck) {
             this.studyDeck = studyDeck;
             return this;
         }
 
-        public StudyDocumentBuilder questions(final List<Question> questions){
+        public StudyDocumentBuilder questions(final List<Question> questions) {
             this.questions = questions;
             return this;
         }
 
-        public StudyDocumentBuilder question(final Question question){
-            this.questions.add(question);
+        public StudyDocumentBuilder question(final Question question) {
+            this.questions.add( question );
             return this;
         }
 
-        public StudyDocumentBuilder createdAt(final OffsetDateTime createdAt){
+        public StudyDocumentBuilder createdAt(final OffsetDateTime createdAt) {
             this.createdAt = createdAt;
             return this;
         }
 
-        public StudyDocumentBuilder updatedAt(final OffsetDateTime updatedAt){
+        public StudyDocumentBuilder updatedAt(final OffsetDateTime updatedAt) {
             this.updatedAt = updatedAt;
             return this;
         }

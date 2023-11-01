@@ -16,7 +16,7 @@ public class DeckService {
 
     public Mono<DeckDocument> save(final DeckDocument document) {
         return deckRepository.save( document )
-                .doFirst( () -> log.info("==== Try to save a follow deck {}", document ) );
+                .doFirst( () -> log.info( "==== Try to save a follow deck {}", document ) );
     }
 
 
